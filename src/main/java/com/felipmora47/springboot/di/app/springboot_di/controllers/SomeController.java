@@ -38,7 +38,7 @@ public class SomeController {
         this.service = service;
     } */
 
-    //Inyección de dependecias atravez de un constructor y no es necesario el @Autowired
+    //Inyección de dependecias atra vez de un constructor y no es necesario el @Autowired
     public SomeController(IProductService service) {
         this.service = service;
     }

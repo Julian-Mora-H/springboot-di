@@ -1,0 +1,27 @@
+[
+    {
+    "id": 1,
+    "name": "Playstation 5",
+    "price": 2500000
+    },
+    {
+        "id": 2,
+        "name": "Xbox Series X",
+        "price": 2560000
+    },
+    {
+        "id": 3,
+        "name": "Nintendo Switch 2",
+        "price": 1900000
+    },
+    {
+        "id": 4,
+        "name": "PC Gamer",
+        "price": 2100000
+    },
+    {
+        "id": 5,
+        "name": "Nintendo Switch",
+        "price": 1500000
+    }
+]

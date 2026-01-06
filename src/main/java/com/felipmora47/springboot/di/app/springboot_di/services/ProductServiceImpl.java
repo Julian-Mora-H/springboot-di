@@ -3,6 +3,9 @@ package com.felipmora47.springboot.di.app.springboot_di.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +16,17 @@ import com.felipmora47.springboot.di.app.springboot_di.repositories.IProductRepo
 @Service
 public class ProductServiceImpl implements IProductService {
 
+    @Autowired
+    private Environment environment;// Primera Forma : Para acceder a las propiedades del archivo config.properties 
+    //@Value("${config.price.tax}") // Segunda Forma : Para acceder a las propiedades del archivo config.properties
+    //private Double tax; 
 
-    private IProductRepository repository;
+    /* private IProductRepository repository;
+    */
+    //Inyección de dependecias atravez de un constructor y no es necesario el @Autowired
+    /*  public ProductServiceImpl(@Qualifier("productFoo") IProductRepository repository) {
+        this.repository = repository;
+    } */
 
     //Instancia de la clase ProductRepositoryImpl
    /*  private ProductRepositoryImpl repository = new ProductRepositoryImpl(); */
@@ -24,8 +36,9 @@ public class ProductServiceImpl implements IProductService {
     private ProductRepositoryImpl repository; */
 
     //Inyección de dependencias de la interfaz IProductRepository
-    /* @Autowired */
-   /*  private IProductRepository repository;  */
+    @Autowired 
+    @Qualifier("productList") //Para indicar cual es el repositorio que se va a utilizar en caso de tener varios, superando al @Primary del repositorio principal
+    private IProductRepository repository;  
 
     
     //Inyección de dependecias atravez de un setter
@@ -34,16 +47,11 @@ public class ProductServiceImpl implements IProductService {
         this.repository = repository;
     } */
 
-    
-    //Inyección de dependecias atravez de un constructor y no es necesario el @Autowired
-    public ProductServiceImpl(IProductRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public List<Product> findAll(){
         return repository.findAll().stream().map(p ->{
-            Double priceTax = p.getPrice()  * 1.25d;
+            // System.out.println(tax); Verificar que se inyecta bien la propiedad
+            Double priceTax = p.getPrice()  * environment.getProperty("config.price.tax",Double.class);
 
             // Para que no ocurra inmutabilidad en el objeto original
             /* Product newProd = new Product(p.getId(),p.getName(),priceImp.longValue()); */
@@ -51,8 +59,11 @@ public class ProductServiceImpl implements IProductService {
             //Otra forma de hacer para que no ocurra inmutabilidad en el objeto original
             Product newProd = (Product)p.clone();
             newProd.setPrice(priceTax.longValue());
-
             return newProd;
+
+            // Esta forma no es inmutable
+            // p.setPrice(priceTax.longValue());
+            // return p;
 
         }).collect(Collectors.toList());
     }
