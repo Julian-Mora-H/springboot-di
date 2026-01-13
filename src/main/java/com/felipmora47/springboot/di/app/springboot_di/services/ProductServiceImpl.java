@@ -21,12 +21,12 @@ public class ProductServiceImpl implements IProductService {
     //@Value("${config.price.tax}") // Segunda Forma : Para acceder a las propiedades del archivo config.properties
     //private Double tax; 
 
-    /* private IProductRepository repository;
-    */
+    private IProductRepository repository;
+    
     //Inyección de dependecias atravez de un constructor y no es necesario el @Autowired
-    /*  public ProductServiceImpl(@Qualifier("productFoo") IProductRepository repository) {
+    public ProductServiceImpl(@Qualifier("productJson") IProductRepository repository) {
         this.repository = repository;
-    } */
+    }
 
     //Instancia de la clase ProductRepositoryImpl
    /*  private ProductRepositoryImpl repository = new ProductRepositoryImpl(); */
@@ -36,9 +36,9 @@ public class ProductServiceImpl implements IProductService {
     private ProductRepositoryImpl repository; */
 
     //Inyección de dependencias de la interfaz IProductRepository
-    @Autowired 
-    @Qualifier("productList") //Para indicar cual es el repositorio que se va a utilizar en caso de tener varios, superando al @Primary del repositorio principal
-    private IProductRepository repository;  
+    //@Autowired 
+    //@Qualifier("productList") //Para indicar cual es el repositorio que se va a utilizar en caso de tener varios, superando al @Primary del repositorio principal
+    //private IProductRepository repository;  
 
     
     //Inyección de dependecias atravez de un setter
